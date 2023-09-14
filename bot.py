@@ -119,6 +119,15 @@ async def com(interaction: discord.Interaction, ship: discord.Attachment, boost:
 
         # Get the response
         data_returned = response.json()
+        # Error handling
+        for key, value in data_returned.items():
+            if key == "Error":
+                text = "Error: could not process ship :\n\t"+str(value)
+                await interaction.followup.send(text, file=ship)
+                return
+            else:
+                pass
+     
         # if draw is false do not retrieve the center of mass image
         if draw == True:
             # Get the URL of the center of mass image
@@ -201,7 +210,14 @@ async def com(interaction: discord.Interaction, ship: discord.Attachment):
 
         # Get the response
         data_returned = response.json()
-        # if draw is false do not retrieve the center of mass image
+        # Error handling
+        for key, value in data_returned.items():
+            if key == "Error":
+                text = "Error: could not process ship :\n\t"+str(value)
+                await interaction.followup.send(text, file=ship)
+                return
+            else:
+                pass
         # Get the URL of the center of mass image
         url_stats = data_returned["analysis"]["url_analysis"]
         # Fetch the center of mass image
